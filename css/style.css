@@ -1,0 +1,46 @@
+html {
+    height: 100%;
+}
+
+body {
+    align-items: center;
+    background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    font-family: 'SourceSerifPro', serif;
+    min-height: 100%;
+    justify-content: center;
+    margin: 0;
+}
+
+h1 {
+    border-bottom: 2px solid #f8f8f8;
+    font-size: 4em;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    transition: border-color 1s ease;
+}
+
+h1:hover {
+    border-bottom: 2px solid black;
+}
+
+a {
+    border-radius: 0.25em;
+    cursor: pointer;
+    margin: 1em;
+    padding: 0.5em;
+    transition: background-color 1s ease;
+}
+
+a:hover {
+    background-color: #dedede;
+}
+
+.active {
+    background-color: #cecece;
+}
+
+#links {
+    margin-bottom: 2em;
+}
