@@ -23,7 +23,9 @@ function loadPage(url) {
             removeClass(activeItem, 'active');
         }
         var selectedItem = document.getElementById(url);
-        addClass(selectedItem, 'active');
+        if (selectedItem !== null) {
+            addClass(selectedItem, 'active');
+        }
     };
     xhr.send();
 }
