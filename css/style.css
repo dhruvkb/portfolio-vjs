@@ -25,7 +25,11 @@ h1:hover {
     border-bottom: 2px solid black;
 }
 
-a {
+.link {
+    display: inline;
+}
+
+a, .link {
     border-radius: 0.25em;
     cursor: pointer;
     margin: 1em;
@@ -33,7 +37,7 @@ a {
     transition: background-color 1s ease;
 }
 
-a:hover {
+a:hover, .link:hover {
     background-color: #dedede;
 }
 
@@ -43,4 +47,9 @@ a:hover {
 
 #links {
     margin-bottom: 2em;
+}
+
+.social {
+    width: 100%;
+    text-align: center;
 }
