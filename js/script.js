@@ -8,6 +8,10 @@ function removeClass(element, className) {
     element.className = element.className.replace((' ' + className), '');
 }
 
+function goTo(url) {
+    window.open(url);
+}
+
 function loadPage(url) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'html/' + url + '.html', true);
