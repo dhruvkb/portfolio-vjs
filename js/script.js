@@ -19,7 +19,7 @@ function loadPage(url) {
         if (this.readyState !== 4) return;
         if (this.status !== 200) return;
         content.innerHTML = this.responseText;
-        window.scrollTo(0, 0);
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
         window.location.hash = url;
 
         var activeItems = document.getElementsByClassName('active');
