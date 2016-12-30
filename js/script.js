@@ -19,8 +19,8 @@ function loadPage(url) {
         if (this.readyState !== 4) return;
         if (this.status !== 200) return;
         content.innerHTML = this.responseText;
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
         window.location.hash = url;
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
 
         var activeItems = document.getElementsByClassName('active');
         if (activeItems.length != 0) {
