@@ -28,6 +28,7 @@ h1:hover {
 
 .link {
     display: inline;
+    border: 1px solid #cecece;
 }
 
 a, .link {
@@ -50,7 +51,7 @@ a:hover, .link:hover {
     margin-bottom: 2em;
 }
 
-.social {
+.centered {
     text-align: center;
     width: 100%;
 }
