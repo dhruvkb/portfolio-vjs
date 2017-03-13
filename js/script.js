@@ -1,52 +1,25 @@
-var content, heading;
-
-function addClass(element, className) {
-    element.className += (' ' + className);
-}
-
-function removeClass(element, className) {
-    element.className = element.className.replace((' ' + className), '');
-}
-
-function goTo(url) {
-    window.open(url);
-}
-
-function loadPage(url) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'html/' + url + '.html', true);
-    xhr.onreadystatechange = function () {
-        if (this.readyState !== 4) return;
-        if (this.status !== 200) return;
-        content.innerHTML = this.responseText;
-        window.location.hash = url;
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-
-        var activeItems = document.getElementsByClassName('active');
-        if (activeItems.length != 0) {
-            var activeItem = activeItems[0];
-            removeClass(activeItem, 'active');
+var $body = $('body');
+var $lastPrompt = $('#last-prompt');
+$(document).ready(function () {
+    $body.focus();
+    $body.keyup(function (event) {
+        var key = event.key;
+        console.log(key);
+        if (key === 'Enter') {
+            process();
+        } else if (key === 'Backspace') {
+            var content = $lastPrompt.html();
+            $lastPrompt.html(content.substring(0, content.length - 1));
+        } else {
+            $lastPrompt.append(event.key);
         }
-        var selectedItem = document.getElementById(url);
-        if (selectedItem !== null) {
-            addClass(selectedItem, 'active');
-        }
-    };
-    xhr.send();
-}
+    });
+});
 
-function updatePage() {
-    var locationHash = window.location.hash;
-    if (locationHash === '') {
-        loadPage('index');
-    } else {
-        loadPage(locationHash.replace('#', ''));
-    }
+function process() {
+    var command = $lastPrompt.html();
+    $lastPrompt.removeAttr('id');
+    console.log(command);
+    $body.append('<p class="prompt" id="last-prompt">');
+    $lastPrompt = $('#last-prompt');
 }
-
-window.onload = function () {
-    content = document.getElementById('content');
-    heading = document.getElementsByTagName('h1')[0];
-    content.style.width = heading.offsetWidth + "px";
-    updatePage();
-};
