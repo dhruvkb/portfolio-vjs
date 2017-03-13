@@ -33,7 +33,7 @@ a:hover {
 
 /* Before */
 .prompt:before {
-    content: '[dhruv@b ~]$ ';
+    content: '[guest@dhruvkb ~]$ ';
     color: #839496;
 }
 
@@ -50,6 +50,23 @@ a:hover {
 .blockquote:before {
     content: '> ';
     color: #b58900;
+}
+
+@keyframes cursor {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+#last-prompt:after {
+    content: '█';
+    animation: cursor 1s step-end infinite;
 }
 
 /* Colors */
