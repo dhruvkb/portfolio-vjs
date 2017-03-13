@@ -1,6 +1,13 @@
 var $body = $('body');
+var $bogus = $('#bogus');
 var $lastPrompt = $('#last-prompt');
 $(document).ready(function () {
+    /*
+     $bogus.click(function () {
+     $bogus.focus();
+     });
+     $bogus.click();
+     */
     $body.focus();
     $body.keydown(function (event) {
         if (event.key === 'Tab') {

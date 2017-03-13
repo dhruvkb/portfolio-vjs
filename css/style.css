@@ -31,6 +31,10 @@ a:hover {
     text-decoration-color: #ffffff;
 }
 
+#bogus {
+    visibility: hidden;
+}
+
 /* Before */
 .prompt:before {
     content: '[guest@dhruvkb ~]$ ';
@@ -52,6 +56,7 @@ a:hover {
     color: #b58900;
 }
 
+/* Keyframes */
 @keyframes cursor {
     0% {
         opacity: 1;
@@ -64,6 +69,7 @@ a:hover {
     }
 }
 
+/* After */
 #last-prompt:after {
     content: '█';
     animation: cursor 1s step-end infinite;
