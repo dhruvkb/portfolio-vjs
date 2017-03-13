@@ -1,57 +1,90 @@
+* {
+    margin: 0;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 14px;
+}
+
 html {
     height: 100%;
 }
 
 body {
-    align-items: center;
-    background-color: #f8f8f8;
-    display: flex;
-    flex-direction: column;
-    font-family: 'SourceSerifPro', serif;
-    justify-content: center;
-    margin: 0;
     min-height: 100%;
+    background-color: #002b36;
+    padding-top: 1em;
+    padding-left: 1em;
+    box-sizing: border-box;
 }
 
-h1 {
-    border-bottom: 2px solid #f8f8f8;
-    cursor: pointer;
-    font-size: 4em;
-    margin-bottom: 0.5em;
-    margin-top: 0;
-    transition: border-color 1s ease;
-}
-
-h1:hover {
-    border-bottom: 2px solid black;
-}
-
-.link {
-    display: inline;
-    border: 1px solid #cecece;
-}
-
-a, .link {
-    border-radius: 0.25em;
-    cursor: pointer;
-    margin: 1em;
-    padding: 0.5em;
-    transition: background-color 1s ease;
-}
-
-a:hover, .link:hover {
-    background-color: #dedede;
-}
-
-.active {
-    background-color: #cecece;
-}
-
-#links {
-    margin-bottom: 2em;
-}
-
-.centered {
-    text-align: center;
+p {
+    color: #93a1a1;
     width: 100%;
+    max-width: 648px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    text-decoration-color: #ffffff;
+}
+
+/* Before */
+.prompt:before {
+    content: '[dhruv@b ~]$ ';
+    color: #839496;
+}
+
+.li:before {
+    content: '- ';
+    color: #d33682;
+}
+
+.h2:before {
+    content: '## ';
+    color: #b58900;
+}
+
+.blockquote:before {
+    content: '> ';
+    color: #b58900;
+}
+
+/* Colors */
+.grey {
+    color: #93a1a1;
+}
+
+.red {
+    color: #dc322f;
+}
+
+.yellow {
+    color: #b58900;
+}
+
+.violet {
+    color: #6c71c4;
+}
+
+.green {
+    color: #859900;
+}
+
+.blue {
+    color: #268bd2;
+}
+
+.magenta {
+    color: #d33682;
+}
+
+.cyan {
+    color: #2aa198;
+}
+
+.orange {
+    color: #cb4b16;
 }
