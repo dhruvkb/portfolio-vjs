@@ -1,7 +1,7 @@
 * {
     margin: 0;
     font-family: 'Source Code Pro', monospace;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 html {
@@ -19,7 +19,7 @@ body {
 p {
     color: #93a1a1;
     width: 100%;
-    max-width: 648px;
+    max-width: 768px;
 }
 
 a {
@@ -29,6 +29,7 @@ a {
 a:hover {
     text-decoration: underline;
     text-decoration-color: #ffffff;
+    cursor: pointer;
 }
 
 #bogus {
@@ -37,8 +38,27 @@ a:hover {
 
 /* Before */
 .prompt:before {
-    content: '[guest@dhruvkb ~]$ ';
     color: #839496;
+}
+
+.home:before {
+    content: '[guest@dhruvkb ~]$ ';
+}
+
+.info:before {
+    content: '[guest@dhruvkb info]$ ';
+}
+
+.résumé:before {
+    content: '[guest@dhruvkb résumé]$ ';
+}
+
+.contact:before {
+    content: '[guest@dhruvkb contact]$ ';
+}
+
+.credits:before {
+    content: '[guest@dhruvkb credits]$ ';
 }
 
 .li:before {
@@ -71,7 +91,7 @@ a:hover {
 
 /* After */
 #last-prompt:after {
-    content: '█';
+    content: '\2588';
     animation: cursor 1s step-end infinite;
 }
 

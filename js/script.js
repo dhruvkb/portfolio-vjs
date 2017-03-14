@@ -1,29 +1,36 @@
 var $body = $('body');
-var $bogus = $('#bogus');
-var $lastPrompt = $('#last-prompt');
+var $lastPrompt;
 $(document).ready(function () {
-    /*
-     $bogus.click(function () {
-     $bogus.focus();
-     });
-     $bogus.click();
-     */
+    changeDirectory(window.location.hash.replace('#', ''), true);
+    var hash = window.location.hash.replace('#', '');
+
+    // Print the prompt for the particular hash
+    if (hash !== 'home') {
+        $body.append('<p class="prompt home">cd ' + hash + '</p>');
+    }
+    $body.append('<p class="prompt ' + hash + '" id="last-prompt"></p>');
+    $lastPrompt = $('#last-prompt');
+
+    // Grab the focus to log keys
     $body.focus();
+
+    // Detect the Tab key and prevent it from starting off a focus cycle
     $body.keydown(function (event) {
         if (event.key === 'Tab') {
             event.preventDefault();
             $body.focus();
-            $body.append('<p>I feel your pain, my developer friend.</p><p>But this ain\'t a real terminal so you gotta type the whole thing</p>');
+            $body.append('<p>I feel your pain, my developer friend.</p><p>But this is not a real terminal so please type the whole thing.</p>');
             $lastPrompt.removeAttr('id');
-            $body.append('<p class="prompt" id="last-prompt">' + $lastPrompt.html());
+            $body.append('<p class="prompt ' + hash + '" id="last-prompt">' + $lastPrompt.html());
             $lastPrompt = $('#last-prompt');
             $body.scrollTop($body[0].scrollHeight);
         }
     });
+
+    // Detect other keys and then transfer control to command processing
     $body.keyup(function (event) {
         $body.scrollTop($body[0].scrollHeight);
         var key = event.key;
-        console.log(key);
         if (key === 'Enter') {
             process();
         } else if (key === 'Backspace') {
@@ -42,77 +49,120 @@ $(document).ready(function () {
 
 function process() {
     var command = $lastPrompt.html();
-    console.log(command);
-    var pageIsHome = false;
-    console.log(window.location.href);
-    if (window.location.href.includes('info')) {
-        // Info page
-        if (command === 'ls') {
-            $body.append('There\'s info but you don\'t wanna type it all out again');
-        }
-    } else if (window.location.href.includes('r%C3%A9sum%C3%A9')) {
-        // Résumé page
-        if (command === 'ls') {
-            $body.append(''
-                + '<p>'
-                + '<a class="blue" href="résumé_master.pdf">résumé_master.pdf</a>&nbsp;&nbsp;'
-                + '<a class="blue" href="résumé_computing.pdf">résumé_computing.pdf</a>&nbsp;&nbsp;'
-                + '<a class="blue" href="résumé_physics.pdf">résumé_physics.pdf</a>'
-                + '</p>');
-        }
-    } else if (window.location.href.includes('contact')) {
-        // Contact page
+    console.log('Command received: ' + command);
+    var hash = window.location.hash.replace('#', '');
+    if (command === 'ls') {
+        list();
+    } else if (command.includes('cd')) {
+        changeDirectory(command.replace('cd ', ''), false);
+    } else if (command.includes('ccat')) {
+        colorizingConcatenate();
+    } else if (command === 'exit') {
+        $body.append('<p>Bye! Please close the window yourself.</p>')
     } else {
-        pageIsHome = true;
-        // Home page
-        if (command === 'ls') {
-            $body.append(''
-                + '<p>'
-                + '<a class="blue" href="info.html">info</a>&nbsp;&nbsp;'
-                + '<a class="blue" href="résumé.html">résumé</a>&nbsp;&nbsp;'
-                + '<a class="blue" href="contact.html">contact</a>'
-                + '</p>');
-        } else if (command.includes('cd')) {
-            if (command === 'cd info') {
-                window.location.href = window.location.origin + '/info.html';
-            } else if (command === 'cd résumé' || command === 'cd resume') {
-                window.location.href = window.location.origin + '/résumé.html';
-            } else if (command === 'cd contact') {
-                window.location.href = window.location.origin + '/contact.html';
-            } else {
-                $body.append('<p>You should try <span class="yellow">cd info</span> or <span class="yellow">cd resume</span> or simply click a link</p>');
-            }
-        } else {
-            $body.append('<p><strong>Bad command.</strong> You should try <span class="yellow">help</span>');
-        }
-    }
-    if (!pageIsHome) {
-        if (command === 'ls') {
+        if (hash === 'home') {
+            if (command === 'help') {
 
-        } else if (command.includes('cd')) {
-            if (command === 'cd ..') {
-                window.location.href = window.location.origin;
-            } else if (command === 'cd ../info') {
-                window.location.href = window.location.origin + '/info.html';
-            } else if (command === 'cd ../résumé' || command === 'cd ../resume') {
-                window.location.href = window.location.origin + '/résumé.html';
-            } else if (command === 'cd ../contact') {
-                window.location.href = window.location.origin + '/contact.html';
-            } else {
-                $body.append('<p>You should try <span class="yellow">cd ..</span></p>')
             }
-        } else if (command === 'help') {
-            $body.append('<p><span class="yellow">cd</span>: <em>change directory</em></p>');
-            $body.append('<p>Eg: type <span class="yellow">cd ..</span> to go back or <span class="yellow">cd ../info</span> to go to the info page</p>');
-            $body.append('<p>&nbsp;</p>');
-            $body.append('<p><span class="yellow">ls</span>: <em>list files</em></p>');
-            $body.append('<p>Eg: type <span class="yellow">ls</span> to see all the subfolders and files</p>');
         } else {
-            $body.append('<p><strong>Bad command.</strong> You should try <span class="yellow">help</span>');
+            if (hash === 'info') {
+
+            } else if (hash === 'résumé') {
+
+            } else if (hash === 'contact') {
+
+            } else {
+
+            }
         }
     }
     $lastPrompt.removeAttr('id');
-    $body.append('<p class="prompt" id="last-prompt">');
+    $body.append('<p class="prompt ' + window.location.hash.replace('#', '') + '" id="last-prompt">');
     $lastPrompt = $('#last-prompt');
     $body.scrollTop($body[0].scrollHeight);
+}
+
+function list() {
+    var hash = window.location.hash.replace('#', '');
+    if (hash === 'home') {
+        $body.append(
+            '<p>'
+            + '<a class="blue" onclick="changeDirectoryClick(\'info\')">info</a>&nbsp;&nbsp;'
+            + '<a class="blue" onclick="changeDirectoryClick(\'résumé\')">résumé</a>&nbsp;&nbsp;'
+            + '<a class="blue" onclick="changeDirectoryClick(\'contact\')">contact</a>&nbsp;&nbsp;'
+            + '<a class="green" onclick="colorizingConcatenateClick(\'credits.md\')">credits.md</a>'
+            + '</p>'
+        );
+    }
+    if (hash === 'info') {
+        $body.append(
+            '<p>'
+            + '<a class="blue" onclick="changeDirectoryClick(\'..\')">.. (up)</a>&nbsp;&nbsp;'
+            + '<a class="green" onclick="colorizingConcatenateClick(\'info.md\')">info.md</a>'
+            + '</p>'
+        );
+    }
+    if (hash === 'résumé') {
+        $body.append(
+            '<p>'
+            + '<a class="blue" onclick="changeDirectoryClick(\'..\')">.. (up)</a>&nbsp;&nbsp;'
+            + '<a class="green" onclick="showPdf(\'résumé_master.pdf\')">résumé_master.pdf</a>&nbsp;&nbsp;'
+            + '<a class="green" onclick="showPdf(\'résumé_computing.pdf\')">résumé_computing.pdf</a>&nbsp;&nbsp;'
+            + '<a class="green" onclick="showPdf(\'résumé_physics.pdf\')">résumé_physics.pdf</a>'
+            + '</p>'
+        );
+    }
+    if (hash === 'contact') {
+        $body.append(
+            '<p>'
+            + '<a class="blue" onclick="changeDirectoryClick(\'..\')">.. (up)</a>&nbsp;&nbsp;'
+            + '<a class="green" onclick="colorizingConcatenateClick(\'contact.md\')">contact.md</a>'
+            + '</p>'
+        )
+    }
+}
+
+function changeDirectoryClick(dir) {
+    $lastPrompt.html('cd ' + dir);
+    process();
+}
+
+function changeDirectory(destinationHash, redirect) {
+    // Ensure that the user is on one of the known hashes
+    var hash = destinationHash;
+    var allowedHashes = ['home', '..', 'info', 'résumé', 'resume', 'contact', 'credits'];
+    if (allowedHashes.indexOf(hash) === -1) {
+        if (redirect) {
+            window.location.hash = 'home';
+        } else {
+            $body.append('<p>Bad command. Please check the command or try <span class="yellow">help</span></p>');
+            return;
+        }
+    } else {
+        window.location.hash = hash;
+    }
+    if (hash === '..') {
+        window.location.hash = 'home';
+    }
+    if (hash === 'resume') {
+        window.location.hash = 'résumé';
+    }
+    hash = window.location.hash.replace('#', '');
+
+    //Print the introduction for the particular hash
+    $body.append('<p class="prompt ' + hash + '">ls</p>');
+    list();
+}
+
+function colorizingConcatenateClick(file) {
+    $lastPrompt.html('ccat ' + file);
+    process();
+}
+
+function colorizingConcatenate() {
+
+}
+
+function showPdf() {
+
 }
