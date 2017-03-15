@@ -34,6 +34,10 @@ $(document).ready(function () {
     $lastPrompt = $('#last-prompt');
 
     var hash = window.location.hash.replace('#', '');
+    if (hash === '') {
+        window.location.hash = 'home';
+        hash = 'home';
+    }
     if (hash !== 'home') {
         changeDirectoryClick(hash);
     } else {
