@@ -39,6 +39,7 @@ $(document).ready(function () {
         hash = 'home';
     }
     if (hash !== 'home') {
+        window.location.hash = 'home';
         changeDirectoryClick(hash);
     } else {
         listClick();
@@ -60,7 +61,6 @@ $(document).ready(function () {
 
     // Detect other keys and then transfer control to command processing
     $body.keyup(function (event) {
-        $body.scrollTop($body[0].scrollHeight);
         var key = event.key;
         if (key === 'Enter') {
             process();
@@ -74,6 +74,7 @@ $(document).ready(function () {
             (key.charCodeAt(0) == 46) ||  // Dot
             (key.charCodeAt(0) == 32)) {  // Space
             $lastPrompt.append(event.key);
+            $body.scrollTop($body[0].scrollHeight);
         }
     });
 });
