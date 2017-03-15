@@ -4,6 +4,8 @@ var $lastPrompt;
 var commandHeirarchy = {
     'home': [
         'ls',
+        'help',
+        'clear',
         'cd info',
         'cd résumé',
         'cd resume',
@@ -18,10 +20,7 @@ var commandHeirarchy = {
         'cat info.md'
     ],
     'résumé': [
-        'cd ..',
-        'ccat résumé_master.pdf',
-        'ccat résumé_computing.pdf',
-        'ccat résumé_physics.pdf'
+        'cd ..'
     ]
 };
 commandHeirarchy['home'].forEach(function (homeCommand) {
@@ -29,6 +28,7 @@ commandHeirarchy['home'].forEach(function (homeCommand) {
     commandHeirarchy['info'].push(homeCommand);
     commandHeirarchy['résumé'].push(homeCommand);
 });
+commandHeirarchy['home'].push('ccat résumé/résumé_master.pdf');
 
 $(document).ready(function () {
     $lastPrompt = $('#last-prompt');
@@ -94,23 +94,19 @@ function process() {
         if (command === 'ls') {
             list();
         } else if (command.includes('cd')) {
-            changeDirectory(command.replace('cd ', ''));
+            changeDirectory(command.replace('cd ../', '').replace('cd ', ''));
         } else if (command.includes('ccat') || command.includes('cat')) {
             colorizingConcatenate(command.replace('ccat ', '').replace('cat ', ''));
         } else if (command === 'clear') {
             clearScreen();
         } else if (command === 'help') {
-            if (hash === 'home') {
-
-            } else if (hash === 'info') {
-
-            } else if (hash === 'résumé') {
-
-            } else if (hash === 'contact') {
-
-            } else {
-
-            }
+            $body.append('<p><span class="yellow">ls</span> shows the files in the current directory</p>');
+            $body.append('<p><span class="yellow">cd </span><span class="blue"><em>dirname</em></span> lets you change directories</p>');
+            $body.append('<p><span class="yellow">ccat </span><span class="green">filename</span> shows the contents of a file</p>');
+            $body.append('<p>These commands will work in the current directory</p>');
+            commandHeirarchy[hash].forEach(function (item) {
+                $body.append('<p class="li">' + item + '</p>')
+            });
         }
         else if (command === 'exit') {
             $body.append('<p>Bye! Please close the window yourself.</p>')
@@ -163,6 +159,7 @@ function list() {
             + '<a class="green" onclick="showPdf(\'résumé_physics.pdf\')">résumé_physics.pdf</a>'
             + '</p>'
         );
+        $body.append('<p><em>Note: You cannot <span class="yellow">ccat</span> pdf files, click to open</em></p>');
     }
     if (hash === 'contact') {
         $body.append(
@@ -227,6 +224,6 @@ function clearScreen() {
     window.location.reload(true);
 }
 
-function showPdf() {
-
+function showPdf(fileName) {
+    window.open(window.location.origin + '/pdf/' + fileName);
 }
