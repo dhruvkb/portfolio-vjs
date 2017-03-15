@@ -6,6 +6,7 @@ var commandHeirarchy = {
         'ls',
         'help',
         'clear',
+	'exit',
         'cd info',
         'cd résumé',
         'cd resume',
