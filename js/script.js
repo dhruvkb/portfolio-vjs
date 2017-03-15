@@ -213,6 +213,7 @@ function colorizingConcatenate(fileName) {
             url: window.location.origin + '/markdowns/' + fileName.replace('.', '') + '.html',
             method: 'GET',
             async: false,
+            cache: false,
             success: [
                 function (response) {
                     $body.append(response);
