@@ -1,17 +1,44 @@
 var $body = $('body');
 var $lastPrompt;
-$(document).ready(function () {
-    changeDirectory(window.location.hash.replace('#', ''), true);
-    var hash = window.location.hash.replace('#', '');
 
-    // Print the prompt for the particular hash
-    if (hash !== 'home') {
-        $body.append('<p class="prompt home">cd ' + hash + '</p>');
-    }
-    $body.append('<p class="prompt ' + hash + '" id="last-prompt"></p>');
+var commandHeirarchy = {
+    'home': [
+        'ls',
+        'cd info',
+        'cd résumé',
+        'cd resume',
+        'ccat contact.md',
+        'cat contact.md',
+        'ccat credits.md',
+        'cat credits.md'
+    ],
+    'info': [
+        'cd ..',
+        'ccat info.md',
+        'cat info.md'
+    ],
+    'résumé': [
+        'cd ..',
+        'ccat résumé_master.pdf',
+        'ccat résumé_computing.pdf',
+        'ccat résumé_physics.pdf'
+    ]
+};
+commandHeirarchy['home'].forEach(function (homeCommand) {
+    homeCommand = homeCommand.replace(' ', ' ../');
+    commandHeirarchy['info'].push(homeCommand);
+    commandHeirarchy['résumé'].push(homeCommand);
+});
+
+$(document).ready(function () {
     $lastPrompt = $('#last-prompt');
 
-    // Grab the focus to log keys
+    var hash = window.location.hash.replace('#', '');
+    if (hash !== 'home') {
+        changeDirectoryClick(hash);
+    } else {
+        listClick();
+    }
     $body.focus();
 
     // Detect the Tab key and prevent it from starting off a focus cycle
@@ -49,37 +76,57 @@ $(document).ready(function () {
 
 // TODO: Replace includes('') with /regex matching/
 function process() {
-    var command = $lastPrompt.html();
-    console.log('Command received: ' + command);
     var hash = window.location.hash.replace('#', '');
-    if (command === 'ls') {
-        list();
-    } else if (command.includes('cd')) {
-        changeDirectory(command.replace('cd ', ''), false);
-    } else if (command.includes('ccat') || command.includes('cat')) {
-        colorizingConcatenate(command.replace('ccat ', '').replace('cat ', ''));
-    } else if (command === 'clear') {
-        clearScreen();
-    } else if (command === 'help') {
-        if (hash === 'home') {
+    var command = $lastPrompt.html();
+    var isBadCommand = false;
 
-        } else if (hash === 'info') {
+    console.log('Command received: ' + command);
 
-        } else if (hash === 'résumé') {
+    if (commandHeirarchy[hash].indexOf(command) === -1) {
+        $body.append('<p>Bad command. You can click the links or read <span class="yellow">help</span></p>');
+        isBadCommand = true;
+    } else {
+        if (command === 'ls') {
+            list();
+        } else if (command.includes('cd')) {
+            changeDirectory(command.replace('cd ', ''));
+        } else if (command.includes('ccat') || command.includes('cat')) {
+            colorizingConcatenate(command.replace('ccat ', '').replace('cat ', ''));
+        } else if (command === 'clear') {
+            clearScreen();
+        } else if (command === 'help') {
+            if (hash === 'home') {
 
-        } else if (hash === 'contact') {
+            } else if (hash === 'info') {
 
-        } else {
+            } else if (hash === 'résumé') {
 
+            } else if (hash === 'contact') {
+
+            } else {
+
+            }
         }
-    }
-    else if (command === 'exit') {
-        $body.append('<p>Bye! Please close the window yourself.</p>')
+        else if (command === 'exit') {
+            $body.append('<p>Bye! Please close the window yourself.</p>')
+        }
     }
     $lastPrompt.removeAttr('id');
     $body.append('<p class="prompt ' + window.location.hash.replace('#', '') + '" id="last-prompt">');
     $lastPrompt = $('#last-prompt');
     $body.scrollTop($body[0].scrollHeight);
+    if (command.includes('cd') && !isBadCommand) {
+        listClick();
+    }
+}
+
+function listClick() {
+    $lastPrompt.typed({
+        strings: ['ls'],
+        typeSpeed: 100,
+        content: 'text',
+        callback: process
+    });
 }
 
 function list() {
@@ -123,40 +170,32 @@ function list() {
 }
 
 function changeDirectoryClick(dir) {
-    $lastPrompt.html('cd ' + dir);
-    process();
+    $lastPrompt.typed({
+        strings: ['cd ' + dir],
+        typeSpeed: 100,
+        content: 'text',
+        callback: process
+    });
 }
 
-function changeDirectory(destinationHash, redirect) {
+function changeDirectory(destinationHash) {
     // Ensure that the user is on one of the known hashes
     var hash = destinationHash;
-    var allowedHashes = ['home', '..', 'info', 'résumé', 'resume'];
-    if (allowedHashes.indexOf(hash) === -1) {
-        if (redirect) {
-            window.location.hash = 'home';
-        } else {
-            $body.append('<p>Bad command. Please check the command or try <span class="yellow">help</span></p>');
-            return;
-        }
-    } else {
-        window.location.hash = hash;
-    }
     if (hash === '..') {
-        window.location.hash = 'home';
+        hash = 'home';
+    } else if (hash === 'resume') {
+        hash = 'résumé';
     }
-    if (hash === 'resume') {
-        window.location.hash = 'résumé';
-    }
-    hash = window.location.hash.replace('#', '');
-
-    //Print the introduction for the particular hash
-    $body.append('<p class="prompt ' + hash + '">ls</p>');
-    list();
+    window.location.hash = hash;
 }
 
 function colorizingConcatenateClick(file) {
-    $lastPrompt.html('ccat ' + file);
-    process();
+    $lastPrompt.typed({
+        strings: ['ccat ' + file],
+        typeSpeed: 100,
+        content: 'text',
+        callback: process
+    });
 }
 
 function colorizingConcatenate(fileName) {

@@ -131,3 +131,8 @@ a:hover {
 .orange {
     color: #cb4b16;
 }
+
+/* Typed.js */
+.typed-cursor {
+    display: none;
+}
