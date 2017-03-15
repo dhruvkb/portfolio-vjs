@@ -130,7 +130,7 @@ function changeDirectoryClick(dir) {
 function changeDirectory(destinationHash, redirect) {
     // Ensure that the user is on one of the known hashes
     var hash = destinationHash;
-    var allowedHashes = ['home', '..', 'info', 'résumé', 'resume', 'contact', 'credits'];
+    var allowedHashes = ['home', '..', 'info', 'résumé', 'resume'];
     if (allowedHashes.indexOf(hash) === -1) {
         if (redirect) {
             window.location.hash = 'home';
