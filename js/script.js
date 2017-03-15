@@ -47,6 +47,7 @@ $(document).ready(function () {
     });
 });
 
+// TODO: Replace includes('') with /regex matching/
 function process() {
     var command = $lastPrompt.html();
     console.log('Command received: ' + command);
@@ -55,26 +56,25 @@ function process() {
         list();
     } else if (command.includes('cd')) {
         changeDirectory(command.replace('cd ', ''), false);
-    } else if (command.includes('ccat')) {
-        colorizingConcatenate();
-    } else if (command === 'exit') {
-        $body.append('<p>Bye! Please close the window yourself.</p>')
-    } else {
+    } else if (command.includes('ccat') || command.includes('cat')) {
+        colorizingConcatenate(command.replace('ccat ', '').replace('cat ', ''));
+    } else if (command === 'clear') {
+        clearScreen();
+    } else if (command === 'help') {
         if (hash === 'home') {
-            if (command === 'help') {
 
-            }
+        } else if (hash === 'info') {
+
+        } else if (hash === 'résumé') {
+
+        } else if (hash === 'contact') {
+
         } else {
-            if (hash === 'info') {
 
-            } else if (hash === 'résumé') {
-
-            } else if (hash === 'contact') {
-
-            } else {
-
-            }
         }
+    }
+    else if (command === 'exit') {
+        $body.append('<p>Bye! Please close the window yourself.</p>')
     }
     $lastPrompt.removeAttr('id');
     $body.append('<p class="prompt ' + window.location.hash.replace('#', '') + '" id="last-prompt">');
@@ -89,7 +89,7 @@ function list() {
             '<p>'
             + '<a class="blue" onclick="changeDirectoryClick(\'info\')">info</a>&nbsp;&nbsp;'
             + '<a class="blue" onclick="changeDirectoryClick(\'résumé\')">résumé</a>&nbsp;&nbsp;'
-            + '<a class="blue" onclick="changeDirectoryClick(\'contact\')">contact</a>&nbsp;&nbsp;'
+            + '<a class="green" onclick="colorizingConcatenateClick(\'contact.md\')">contact.md</a>&nbsp;&nbsp;'
             + '<a class="green" onclick="colorizingConcatenateClick(\'credits.md\')">credits.md</a>'
             + '</p>'
         );
@@ -159,8 +159,27 @@ function colorizingConcatenateClick(file) {
     process();
 }
 
-function colorizingConcatenate() {
+function colorizingConcatenate(fileName) {
+    // Ensure that the file requested exists
+    var allowedNames = ['info.md', 'contact.md', 'credits.md'];
+    if (allowedNames.indexOf(fileName) === -1) {
+        $body.append('<p>File not found. Please check the command or try <span class="yellow">help</span></p>');
+    } else {
+        $.ajax({
+            url: window.location.origin + '/markdowns/' + fileName.replace('.', '') + '.html',
+            method: 'GET',
+            async: false,
+            success: [
+                function (response) {
+                    $body.append(response);
+                }
+            ]
+        });
+    }
+}
 
+function clearScreen() {
+    window.location.reload(true);
 }
 
 function showPdf() {
