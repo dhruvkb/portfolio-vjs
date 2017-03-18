@@ -220,7 +220,7 @@ function colorizingConcatenate(fileName) {
         if (resumes.indexOf(fileName) === -1) {
             $body.append('<p>File not found. Please check the command or try <span class="yellow">help</span></p>');
         } else {
-            showPdf(fileName);
+            showPdf(fileName.replace('e', 'é'));
         }
     } else {
         $.ajax({
