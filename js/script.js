@@ -224,7 +224,7 @@ function colorizingConcatenate(fileName) {
         if (resumes.indexOf(fileName) === -1) {
             $body.append('<p>File not found. Please check the command or try <span class="yellow">help</span></p>');
         } else {
-            showPdf(replaceAllOccurrences(fileName, 'e', 'é'));
+            showPdf(replaceAllOccurrences(fileName, 'resume', 'résumé'));
         }
     } else {
         $.ajax({
