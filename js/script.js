@@ -87,6 +87,10 @@ $(document).ready(function () {
     });
 });
 
+function replaceAllOccurrences(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
+
 // TODO: Replace includes('') with /regex matching/
 function process() {
     var hash = window.location.hash.replace('#', '');
@@ -220,7 +224,7 @@ function colorizingConcatenate(fileName) {
         if (resumes.indexOf(fileName) === -1) {
             $body.append('<p>File not found. Please check the command or try <span class="yellow">help</span></p>');
         } else {
-            showPdf(fileName.replace('e', 'é'));
+            showPdf(replaceAllOccurrences(fileName, 'e', 'é'));
         }
     } else {
         $.ajax({
