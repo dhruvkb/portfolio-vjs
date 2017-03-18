@@ -6,7 +6,7 @@ var commandHeirarchy = {
         'ls',
         'help',
         'clear',
-	'exit',
+        'exit',
         'cd info',
         'cd résumé',
         'cd resume',
@@ -21,7 +21,13 @@ var commandHeirarchy = {
         'cat info.md'
     ],
     'résumé': [
-        'cd ..'
+        'cd ..',
+        'ccat resume_master.pdf',
+        'ccat resume_computing.pdf',
+        'ccat resume_physics.pdf',
+        'ccat résumé_master.pdf',
+        'ccat résumé_computing.pdf',
+        'ccat résumé_physics.pdf'
     ]
 };
 commandHeirarchy['home'].forEach(function (homeCommand) {
@@ -72,6 +78,7 @@ $(document).ready(function () {
             (key.charCodeAt(0) >= 97 && key.charCodeAt(0) <= 122 && key.length == 1) ||  // Lowercase a-z
             (key.charCodeAt(0) >= 65 && key.charCodeAt(0) <= 90 && key.length == 1) ||  // Uppercase A-Z
             (key.charCodeAt(0) == 47) ||  // Slash
+            (key.charCodeAt(0) == 95) ||  // Underscore
             (key.charCodeAt(0) == 46) ||  // Dot
             (key.charCodeAt(0) == 32)) {  // Space
             $lastPrompt.append(event.key);
@@ -160,7 +167,8 @@ function list() {
             + '<a class="green" onclick="showPdf(\'résumé_physics.pdf\')">résumé_physics.pdf</a>'
             + '</p>'
         );
-        $body.append('<p><em>Note: You cannot <span class="yellow">ccat</span> pdf files, click to open</em></p>');
+        $body.append('<p><em><strong>Note:</strong> You may experience problems when trying to <span class="yellow">ccat</span> pdf files</em></p>');
+        $body.append('<p><em>In that case, click the file name and then your browser will let you proceed</em></p>');
     }
     if (hash === 'contact') {
         $body.append(
@@ -205,7 +213,15 @@ function colorizingConcatenate(fileName) {
     // Ensure that the file requested exists
     var allowedNames = ['info.md', 'contact.md', 'credits.md'];
     if (allowedNames.indexOf(fileName) === -1) {
-        $body.append('<p>File not found. Please check the command or try <span class="yellow">help</span></p>');
+        var resumes = [
+            'résumé_master.pdf', 'résumé_computing.pdf', 'résumé_physics.pdf',
+            'resume_master.pdf', 'resume_computing.pdf', 'resume_physics.pdf'
+        ];
+        if (resumes.indexOf(fileName) === -1) {
+            $body.append('<p>File not found. Please check the command or try <span class="yellow">help</span></p>');
+        } else {
+            showPdf(fileName);
+        }
     } else {
         $.ajax({
             url: window.location.origin + '/markdowns/' + fileName.replace('.', '') + '.html',
