@@ -45,6 +45,7 @@ class Node {
 
 class Tree {
     constructor(root) {
+        root.parent = root;
         this.root = root;
     }
 
