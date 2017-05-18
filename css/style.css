@@ -36,6 +36,12 @@ a:hover {
     visibility: hidden;
 }
 
+#last-prompt:focus {
+    outline: 0 solid transparent;
+    color : transparent;
+    text-shadow : 0 0 0 #93a1a1;
+}
+
 /* Before */
 .prompt:before {
     color: #839496;

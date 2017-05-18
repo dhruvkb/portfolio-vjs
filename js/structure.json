@@ -1,0 +1,54 @@
+{
+  "name": "~",
+  "type": "folder",
+  "children": [
+    {
+      "name": "info",
+      "type": "folder",
+      "children": [
+        {
+          "name": "bio.md",
+          "type": "file"
+        },
+        {
+          "name": "education.md",
+          "type": "file"
+        },
+        {
+          "name": "experience.md",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "résumé",
+      "alternativeName": "resume",
+      "type": "folder",
+      "children": [
+        {
+          "name": "résumé_master.pdf",
+          "alternativeName": "resume_master.pdf",
+          "type": "file"
+        },
+        {
+          "name": "résumé_computing.pdf",
+          "alternativeName": "resume_computing.pdf",
+          "type": "file"
+        },
+        {
+          "name": "résumé_physics.pdf",
+          "alternativeName": "resume_physics.pdf",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "contact.md",
+      "type": "file"
+    },
+    {
+      "name": "credits.md",
+      "type": "file"
+    }
+  ]
+}
