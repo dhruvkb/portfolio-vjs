@@ -142,11 +142,6 @@ function generateTree() {
     if (node.type === 'folder') {
         populateTree(basicTree);
     }
-    /*
-     tree.traverseDepthFirst(function (node) {
-     console.log(node.name);
-     });
-     */
 }
 
 function populateTree(basicNode) {
@@ -157,6 +152,17 @@ function populateTree(basicNode) {
         tree.add(childNode, basicNode.name, tree.traverseBreadthFirst);
         if (basicChild.type === 'folder') {
             populateTree(basicChild);
+        }
+    }
+}
+
+function printTree(node = tree.root, level = 0) {
+    let color = (node.type === 'folder') ? 'blue' : 'green';
+    let pre = ('│' + '&nbsp;'.repeat(3)).repeat(level);
+    $body.append('<p>' + pre + '<span class="' + color + '">' + node.name + '</span></p>');
+    if (node.type === 'folder') {
+        for (let i = 0; i < node.children.length; i++) {
+            printTree(node.children[i], level + 1);
         }
     }
 }
@@ -217,6 +223,7 @@ function process() {
     let clearRe = /clear/;
     let exitRe = /exit/;
     let listRe = /ls/;
+    let treeRe = /tree/;
     let changeDirectoryRe = /cd\s[~]?[a-zA-Zé\/.\-_]*/;
     let concatenateRe = /cat\s[~]?[a-zA-Zé\/.()\-_↵\s]+/;
 
@@ -229,6 +236,8 @@ function process() {
         commandType = 'exit';
     } else if (listRe.test(command)) {
         commandType = 'list';
+    } else if (treeRe.test(command)) {
+        commandType = 'tree';
     } else if (changeDirectoryRe.test(command)) {
         commandType = 'changeDirectory';
     } else if (concatenateRe.test(command)) {
@@ -249,6 +258,9 @@ function process() {
             break;
         case 'list':
             list();
+            break;
+        case 'tree':
+            printTree();
             break;
         case 'changeDirectory':
             changeDirectory(command.substring(3));
@@ -272,8 +284,14 @@ function process() {
 // Individual command processors
 
 function help() {
-    $body.append('<p>If you find this hard, you may use the links to browse</p>');
-    // TODO: Show help relevant to the currentNode
+    $body.append('<p>You can:</p>');
+    $body.append('<p> - go to directory <span class="blue">dirname</span> with <span class="yellow">cd</span> <span class="blue">dirname</span></p>');
+    $body.append('<p> - read file <span class="green">filename</span> with <span class="yellow">cat</span> <span class="green">filename</span></p>');
+    $body.append('<p> - see all files in the current directory with <span class="yellow">ls</span></p>');
+    $body.append('<p> - print a sitemap with <span class="yellow">tree</span></p>');
+    $body.append('<p> - clear the screen with <span class="yellow">clear</span></p>');
+    $body.append('<p> - read help with <span class="yellow">help</span></p>');
+    $body.append('<p> - use the mouse to click on the links and never type a command at all</p>');
 }
 
 function clear() {
