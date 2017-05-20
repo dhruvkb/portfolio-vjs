@@ -32,6 +32,10 @@ a:hover {
     cursor: pointer;
 }
 
+.smiley {
+    font-size: 2em;
+}
+
 #bogus {
     visibility: hidden;
 }
