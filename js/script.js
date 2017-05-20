@@ -6,6 +6,11 @@ let tree;
 let currentPointer;
 let currentNode;
 
+let commandHistory = [];
+
+let commandHistoryUp = [];
+let commandHistoryDown = [];
+
 const TYPE_SPEED = 50;
 
 $(document).ready(function () {
@@ -24,11 +29,9 @@ $(document).ready(function () {
 
     // Set the focus on body in order to detect keystrokes
     $lastPrompt.focus();
-    // Detect the Tab key and prevent it from starting off a focus cycle
-    $lastPrompt.on('keydown', tabGrab);
-    // Detect the Enter key and prevent if from creating a new line
-    $lastPrompt.on('keydown', enterGrab);
-    // Focus snatching from body
+    // Attach listeners on last prompt
+    attachListeners();
+    // Attach listener on body
     $body.on('click', function (event) {
         event.preventDefault();
         $lastPrompt.focus();
@@ -38,12 +41,37 @@ $(document).ready(function () {
 
 // Helper functions
 
+function doNothing() {
+    // Do nothing
+}
+
 function replaceAllOccurrences(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 }
 
 function showPdf(fileName) {
     window.open(window.location.origin + '/pdf/' + fileName);
+}
+
+function typeText(text, callback, typeSpeed = TYPE_SPEED) {
+    $lastPrompt.typed({
+        strings: [text],
+        typeSpeed: typeSpeed,
+        content: 'text',
+        callback: callback
+    });
+}
+
+function attachListeners() {
+    // Detect the Up key and use it to display the commands in reverse order
+    $lastPrompt.on('keydown', upGrab);
+    // Detect the Down key and use it to display the commands in forward order
+    $lastPrompt.on('keydown', downGrab);
+    // Detect the Tab key and prevent it from starting off a focus cycle
+    $lastPrompt.on('keydown', tabGrab);
+    // Detect the Enter key and prevent if from creating a new line
+    $lastPrompt.on('keydown', enterGrab);
+    // Focus snatching from body
 }
 
 function cursorToEnd() {
@@ -68,8 +96,7 @@ function newPrompt(presetContent = "") {
     $lastPrompt = $('#last-prompt');
 
     $lastPrompt.focus();
-    $lastPrompt.on('keydown', tabGrab);
-    $lastPrompt.on('keydown', enterGrab);
+    attachListeners();
 }
 
 function goToHash() {
@@ -97,6 +124,32 @@ function updateCurrentPointer() {
 }
 
 // Keyboard grabber functions
+
+function upGrab(event) {
+    if (event.key === 'ArrowUp') {
+        event.preventDefault();
+
+        if (commandHistoryUp.length !== 0) {
+            currentText = $lastPrompt.html();
+            commandHistoryDown.push(currentText);
+            $lastPrompt.html(commandHistoryUp.pop());
+            cursorToEnd();
+        }
+    }
+}
+
+function downGrab(event) {
+    if (event.key === 'ArrowDown') {
+        event.preventDefault();
+
+        if (commandHistoryDown.length !== 0) {
+            currentText = $lastPrompt.html();
+            commandHistoryUp.push(currentText);
+            $lastPrompt.html(commandHistoryDown.pop());
+            cursorToEnd();
+        }
+    }
+}
 
 function tabGrab(event) {
     if (event.key === 'Tab') {
@@ -218,6 +271,13 @@ function nodeFrom(path) {
 
 function process() {
     let command = $lastPrompt.html();
+
+    // Save the command into history
+    commandHistory.push(command);
+    // Make the entire history available on pressing Up
+    commandHistoryUp = commandHistory.slice();
+    // Clear the down history because that nothing after Enter
+    commandHistoryDown = [];
 
     let helpRe = /help/;
     let clearRe = /clear/;
@@ -363,42 +423,18 @@ function badCommand() {
 
 // Automated command typing functions
 
-function doNothing() {
-    // Do nothing
-}
-
 function listClick() {
-    $lastPrompt.typed({
-        strings: ['ls'],
-        typeSpeed: TYPE_SPEED,
-        content: 'text',
-        callback: process
-    });
+    typeText('ls', process);
 }
 
 function changeDirectoryClick(dirPath) {
-    $lastPrompt.typed({
-        strings: ['cd ' + dirPath],
-        typeSpeed: TYPE_SPEED,
-        content: 'text',
-        callback: process
-    });
+    typeText('cd ' + dirPath, process)
 }
 
 function concatenateClick(filePath) {
-    $lastPrompt.typed({
-        strings: ['cat ' + filePath],
-        typeSpeed: TYPE_SPEED,
-        content: 'text',
-        callback: (filePath.includes('.pdf')) ? doNothing : process
-    });
+    typeText('cat ' + filePath, (filePath.includes('.pdf')) ? doNothing : process);
 }
 
 function helpClick() {
-    $lastPrompt.typed({
-        strings: ['help'],
-        typeSpeed: TYPE_SPEED,
-        content: 'text',
-        callback: process
-    });
+    typeText('help', process);
 }
