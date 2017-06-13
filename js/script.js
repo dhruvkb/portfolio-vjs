@@ -6,12 +6,16 @@ let tree;
 let currentPointer;
 let currentNode;
 
+let allowedCommands = {};
+
 let commandHistory = [];
 
 let commandHistoryUp = [];
 let commandHistoryDown = [];
 
 const TYPE_SPEED = 50;
+const alert = new Audio('ogg/glass.ogg');
+const separator = '&nbsp;&nbsp; ';
 
 $(document).ready(function () {
     // Set up the filesystem structure
@@ -43,6 +47,10 @@ $(document).ready(function () {
 
 function doNothing() {
     // Do nothing
+}
+
+function getShow(element) {
+    return element['show'];
 }
 
 function replaceAllOccurrences(str, find, replace) {
@@ -123,6 +131,58 @@ function updateCurrentPointer() {
     });
 }
 
+function updateAllowedCommands() {
+    let allowedCommandsList = ['help', 'clear', 'exit', 'ls'];
+    for (let i = 0; i < allowedCommandsList.length; i++) {
+        allowedCommandsList[i] = {
+            'show': '<span class="yellow">' + allowedCommandsList[i] + '</span>',
+            'mean': allowedCommandsList[i]
+        };
+    }
+    let children = currentNode.children;
+    for (let i = 0; i < children.length; i++) {
+        let child = children[i];
+        let command = '';
+        let className = '';
+        if (child.type === 'file') {
+            command = 'cat';
+            className = 'green';
+        }
+        if (child.type === 'folder') {
+            command = 'cd';
+            className = 'blue';
+        }
+
+        let show = '<span class="yellow">'
+            + command
+            + '</span>'
+            + '&nbsp;'
+            + '<span class="' + className + '">'
+            + child.name
+            + '</span>';
+        let mean = command + ' ' + child.name;
+        allowedCommandsList.push({
+            'show': show,
+            'mean': mean
+        });
+        if (child.name !== child.alternativeName) {
+            show = '<span class="yellow">'
+                + command
+                + '</span>'
+                + '&nbsp;'
+                + '<span class="' + className + '">'
+                + child.alternativeName
+                + '</span>';
+            mean = command + ' ' + child.alternativeName;
+            allowedCommandsList.push({
+                'show': show,
+                'mean': mean
+            });
+        }
+    }
+    allowedCommands = allowedCommandsList;
+}
+
 // Keyboard grabber functions
 
 function upGrab(event) {
@@ -130,7 +190,7 @@ function upGrab(event) {
         event.preventDefault();
 
         if (commandHistoryUp.length !== 0) {
-            currentText = $lastPrompt.html();
+            let currentText = $lastPrompt.html();
             commandHistoryDown.push(currentText);
             $lastPrompt.html(commandHistoryUp.pop());
             cursorToEnd();
@@ -143,7 +203,7 @@ function downGrab(event) {
         event.preventDefault();
 
         if (commandHistoryDown.length !== 0) {
-            currentText = $lastPrompt.html();
+            let currentText = $lastPrompt.html();
             commandHistoryUp.push(currentText);
             $lastPrompt.html(commandHistoryDown.pop());
             cursorToEnd();
@@ -155,10 +215,26 @@ function tabGrab(event) {
     if (event.key === 'Tab') {
         event.preventDefault();
 
-        $body.append('<p>I can understand your pain, my developer friend.</p>');
-        $body.append('<p>But this is not a real terminal, so please type the whole command.</p>');
+        let command = $lastPrompt.html();
 
-        newPrompt($lastPrompt.html());
+        let matches = [];
+        for (let i = 0; i < allowedCommands.length; i++) {
+            let allowedCommand = allowedCommands[i];
+            if (allowedCommand['mean'].startsWith(command)) {
+                matches.push(allowedCommand);
+            }
+        }
+        if (matches.length !== 1) {
+            alert.play();
+        }
+        if (matches.length > 1) {
+            let string = '<p>' + matches.map(getShow).join(separator) + '</p>';
+            $body.append(string);
+            newPrompt($lastPrompt.html());
+        }
+        if (matches.length === 1) {
+            $lastPrompt.html(matches[0]['mean']);
+        }
 
         // Set cursor at the end of the paragraph
         cursorToEnd();
@@ -211,7 +287,7 @@ function populateTree(basicNode) {
 
 function printTree(node = tree.root, level = 0) {
     let color = (node.type === 'folder') ? 'blue' : 'green';
-    let pre = ('│' + '&nbsp;'.repeat(3)).repeat(level);
+    let pre = ('│' + separator).repeat(level);
     $body.append('<p>' + pre + '<span class="' + color + '">' + node.name + '</span></p>');
     if (node.type === 'folder') {
         for (let i = 0; i < node.children.length; i++) {
@@ -376,7 +452,7 @@ function list() {
             string = string + child.name;
             string = string + '</a>';
         }
-        string = string + "&nbsp;&nbsp;"
+        string = string + separator;
     }
     string = string + '</p>';
     $body.append(string);
@@ -391,6 +467,7 @@ function changeDirectory(path) {
     currentNode = nextNode;
     currentPointer = currentNode.name;
     window.location.hash = currentPointer;
+    updateAllowedCommands();
 }
 
 function concatenate(path) {
