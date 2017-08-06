@@ -28,6 +28,7 @@ $(document).ready(function () {
 
     // Update the currentPointer variable based on the current hash
     goToHash();
+    printTree();
     // Automatically update the currentPointer variable whenever the hash changes
     $(window).on('hashchange', updateCurrentPointer);
 
@@ -115,7 +116,6 @@ function goToHash() {
     let node = nodeNamed(hash);
     if (node !== undefined && node.type === 'folder') {
         changeDirectoryClick(node.name);
-        printTree();
     }
 }
 
