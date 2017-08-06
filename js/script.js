@@ -413,7 +413,8 @@ function process() {
 
     if (commandType === 'changeDirectory') {
         // List files after the process
-        listClick();
+        // listClick();
+        // ^ Disabled at Ketan's behest
     }
 }
 
