@@ -115,6 +115,7 @@ function goToHash() {
     let node = nodeNamed(hash);
     if (node !== undefined && node.type === 'folder') {
         changeDirectoryClick(node.name);
+        printTree();
     }
 }
 
@@ -288,11 +289,27 @@ function populateTree(basicNode) {
 function printTree(node = tree.root, level = 0) {
     let color = (node.type === 'folder') ? 'blue' : 'green';
     let pre = ('│' + separator).repeat(level);
-    $body.append('<p>' + pre + '<span class="' + color + '">' + node.name + '</span></p>');
     if (node.type === 'folder') {
+        $body.append(
+            '<p>' +
+            pre +
+            '<a class="' + color + '" onclick="changeDirectoryClick(absolutePathTo(nodeNamed(\'' + node.name + '\')))">' +
+            node.name +
+            '</a>' +
+            '</p>'
+        );
         for (let i = 0; i < node.children.length; i++) {
             printTree(node.children[i], level + 1);
         }
+    } else {
+        $body.append(
+            '<p>' +
+            pre +
+            '<a class="' + color + '" onclick="concatenateClick(absolutePathTo(nodeNamed(\'' + node.name + '\')))">' +
+            node.name +
+            '</a>' +
+            '</p>'
+        );
     }
 }
 
