@@ -38,7 +38,6 @@ $(document).ready(function () {
     attachListeners();
     // Attach listener on body
     $body.on('click', function (event) {
-        event.preventDefault();
         $lastPrompt.focus();
         cursorToEnd();
     });
