@@ -26,20 +26,15 @@
       "type": "folder",
       "children": [
         {
-          "name": "résumé_master.pdf",
-          "alternativeName": "resume_master.pdf",
+          "name": "résumé_full.pdf",
+          "alternativeName": "resume_full.pdf",
           "type": "file"
         },
         {
-          "name": "résumé_computing.pdf",
-          "alternativeName": "resume_computing.pdf",
+          "name": "résumé_short.pdf",
+          "alternativeName": "resume_short.pdf",
           "type": "file"
         },
-        {
-          "name": "résumé_physics.pdf",
-          "alternativeName": "resume_physics.pdf",
-          "type": "file"
-        }
       ]
     },
     {
