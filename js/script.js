@@ -19,7 +19,10 @@ const separator = '&nbsp;&nbsp; ';
 
 $(document).ready(function () {
     // Set up the filesystem structure
-    getStructure();
+    getStructure(stepTwo);
+});
+
+function stepTwo() {
     generateTree();
     currentNode = tree.root;
 
@@ -41,7 +44,7 @@ $(document).ready(function () {
         $lastPrompt.focus();
         cursorToEnd();
     });
-});
+}
 
 // Helper functions
 
@@ -251,15 +254,15 @@ function enterGrab(event) {
 
 // Tree handling functions
 
-function getStructure() {
+function getStructure(callback) {
     $.ajax({
         method: 'GET',
         url: window.location.origin + '/js/structure.json',
-        async: false,
         dataType: 'json',
         success: [
             function (response) {
                 basicTree = response;
+                callback();
             }
         ]
     });
@@ -418,8 +421,8 @@ function process() {
             changeDirectory(command.substring(3));
             break;
         case 'concatenate':
-            concatenate(command.substring(4));
-            break;
+            concatenate(command.substring(4), newPrompt);
+            return;
         case 'badCommand':
             badCommand();
             break;
@@ -487,7 +490,7 @@ function changeDirectory(path) {
     updateAllowedCommands();
 }
 
-function concatenate(path) {
+function concatenate(path, callback) {
     let node = nodeFrom(path);
     if (node === undefined || node.type === 'folder') {
         badCommand();
@@ -498,16 +501,17 @@ function concatenate(path) {
         $.ajax({
             url: window.location.origin + '/markdowns/' + fileName.replace('.', '') + '.html',
             method: 'GET',
-            async: false,
             cache: false,
             success: [
                 function (response) {
                     $body.append(response);
+                    callback();
                 }
             ]
         });
     } else if (fileName.includes('.pdf')) {
         showPdf(replaceAllOccurrences(fileName, 'resume', 'résumé'));
+        callback();
     }
 }
 
