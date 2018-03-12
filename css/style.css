@@ -21,6 +21,21 @@ a:hover {
     cursor: pointer;
 }
 
+.li:before {
+    content: '- ';
+    color: #d33682;
+}
+
+.h2:before {
+    content: '## ';
+    color: #b58900;
+}
+
+.blockquote:before {
+    content: '> ';
+    color: #b58900;
+}
+
 .smiley {
     font-size: 3em;
 }
