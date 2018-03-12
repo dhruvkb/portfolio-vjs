@@ -21,20 +21,17 @@
       ]
     },
     {
-      "name": "résumé",
-      "alternativeName": "resume",
+      "name": "resume",
       "type": "folder",
       "children": [
         {
-          "name": "résumé_full.pdf",
-          "alternativeName": "resume_full.pdf",
+          "name": "resume_full.pdf",
           "type": "file"
         },
         {
-          "name": "résumé_short.pdf",
-          "alternativeName": "resume_short.pdf",
+          "name": "resume_short.pdf",
           "type": "file"
-        },
+        }
       ]
     },
     {

@@ -1,149 +1,25 @@
-* {
-    margin: 0;
-    font-family: monospace;
-    font-size: 14px;
-}
-
 html {
-    height: 100%;
     background-color: #002b36;
 }
 
 body {
-    min-height: 100%;
-    background-color: #002b36;
-    padding-top: 1em;
-    padding-left: 1em;
-    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-p {
-    color: #93a1a1;
-    width: 100%;
-    max-width: 768px;
-}
-
-a {
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-    text-decoration-color: #ffffff;
-    cursor: pointer;
+pre {
+    margin: 0;
 }
 
 .smiley {
-    font-size: 2em;
+    font-size: 3em;
 }
 
-#bogus {
-    visibility: hidden;
+#terminal {
+    font-family: monospace !important;
+    max-width: 50em;
 }
 
-#last-prompt:focus {
-    outline: 0 solid transparent;
-    color : transparent;
-    text-shadow : 0 0 0 #93a1a1;
-}
-
-/* Before */
-.prompt:before {
-    color: #839496;
-}
-
-.home:before {
-    content: '[guest@dhruvkb ~]$ ';
-}
-
-.info:before {
-    content: '[guest@dhruvkb info]$ ';
-}
-
-.résumé:before {
-    content: '[guest@dhruvkb résumé]$ ';
-}
-
-.contact:before {
-    content: '[guest@dhruvkb contact]$ ';
-}
-
-.credits:before {
-    content: '[guest@dhruvkb credits]$ ';
-}
-
-.li:before {
-    content: '- ';
-    color: #d33682;
-}
-
-.h2:before {
-    content: '## ';
-    color: #b58900;
-}
-
-.blockquote:before {
-    content: '> ';
-    color: #b58900;
-}
-
-/* Keyframes */
-@keyframes cursor {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-/* After */
-#last-prompt:after {
-    content: '\2588';
-    animation: cursor 1s step-end infinite;
-}
-
-/* Colors */
-.grey {
-    color: #93a1a1;
-}
-
-.red {
-    color: #dc322f;
-}
-
-.yellow {
-    color: #b58900;
-}
-
-.violet {
-    color: #6c71c4;
-}
-
-.green {
-    color: #859900;
-}
-
-.blue {
-    color: #268bd2;
-}
-
-.magenta {
-    color: #d33682;
-}
-
-.cyan {
-    color: #2aa198;
-}
-
-.orange {
-    color: #cb4b16;
-}
-
-/* Typed.js */
-.typed-cursor {
-    display: none;
+div.Terminal div p:last-of-type::before {
+    content: attr(data-prompt);
 }
