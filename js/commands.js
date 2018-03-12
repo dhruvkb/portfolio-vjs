@@ -153,7 +153,6 @@ function concatenate(path, callback) {
             ]
         });
     } else if (filename.includes('.pdf')) {
-        filename = filename.replace('resume', 'résumé');
         window.open(window.location.origin + '/pdf/' + filename);
         callback();
     }
