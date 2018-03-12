@@ -11,6 +11,16 @@ pre {
     margin: 0;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    text-decoration-color: #ffffff;
+    cursor: pointer;
+}
+
 .smiley {
     font-size: 3em;
 }

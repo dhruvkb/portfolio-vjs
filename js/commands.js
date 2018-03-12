@@ -78,8 +78,8 @@ function clear() {
  * Say goodbye and then apologize for the limitations of JavaScript
  */
 function exit() {
-    $body.append('<p><span class="yellow">Goodbye!</span></p>');
-    $body.append('<p>JavaScript is not allowed to close this window.</p>');
+    printLine('<span class="yellow">Goodbye!</span>');
+    printLine('JavaScript is not allowed to close this window.');
 }
 
 /**
@@ -130,6 +130,7 @@ function concatenate(path, callback) {
     let node = nodeFrom(path);
     if (node === undefined || node.type === 'folder') {
         badCommand();
+        callback();
         return;
     }
     let filename = node.name;
@@ -141,6 +142,12 @@ function concatenate(path, callback) {
             success: [
                 function (response) {
                     printLine(response);
+                    callback();
+                }
+            ],
+            error: [
+                function () {
+                    badCommand();
                     callback();
                 }
             ]
