@@ -7,6 +7,10 @@ let currentNode;
 let currentPointer;
 let allowedCommands;
 
+let commandHistory = [];
+let commandHistoryUp = [];
+let commandHistoryDown = [];
+
 let domParser = new DOMParser();
 let $terminal = $('#terminal');
 
@@ -31,6 +35,7 @@ function documentReady() {
 
         // Remainder of the document ready function
         printTopBlock();
+
         hashToDirectory();
         window.onhashchange = hashChange;
 
@@ -109,13 +114,24 @@ function printTopBlock() {
 }
 
 /**
+ * Attach listeners for presses of up, down and tab keys
+ */
+function attachListeners() {
+    let $input = $('input');
+    $input.on('keydown', goUp);
+    $input.on('keydown', goDown);
+    $input.on('keydown', autoComplete);
+}
+
+/**
  * Show the prompt and attach a listener to process the input
  */
 function takeInput() {
     terminal.input('', processInput);
 
     let $inputParagraph = $terminal.find('div').find('p').last();
-    $inputParagraph.attr('data-prompt', getPrompt())
+    $inputParagraph.attr('data-prompt', getPrompt());
+    attachListeners();
 }
 
 /**
@@ -152,6 +168,10 @@ function processInput(input) {
     } else {
         commandType = 'badCommand';
     }
+
+    commandHistory.push(input);
+    commandHistoryUp = commandHistory.slice();
+    commandHistoryDown = [];
 
     switch (commandType) {
         case 'help':
