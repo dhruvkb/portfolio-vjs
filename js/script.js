@@ -104,8 +104,8 @@ function printTopBlock() {
     printLine('<span class="green">==================</span>');
     printLine('<span class="cyan">&nbsp;dhruv bhanushali</span>');
     printLine('<span class="green">==================</span>');
-    printLine('<strong>developer and engineering-physicist</strong>');
-    printLine('<strong>junior, IIT Roorkee</strong>');
+    printLine(`<strong>software developer</strong>`);
+    printLine(`<strong>undergraduate, IIT Roorkee</strong>`);
     printLine('<br>');
     help();
     printLine('<br>');
@@ -212,7 +212,7 @@ function printLine(output) {
     let $last = $terminal.find('div').find('p').find('div').last();
     let encodedStr = $last.html();
     let dom = domParser.parseFromString(
-        '<!DOCTYPE html><html><body>' + encodedStr + '</body></html>',
+        '<!DOCTYPE html><html lang="en"><body>' + encodedStr + '</body></html>',
         'text/html'
     );
     let decodedString = dom.body.textContent;
