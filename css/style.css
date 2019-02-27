@@ -41,7 +41,7 @@ a:hover {
 }
 
 #terminal {
-    font-family: monospace !important;
+    font-family: 'Fira Code', monospace !important;
     max-width: 50em;
 }
 
