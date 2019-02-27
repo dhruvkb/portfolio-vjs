@@ -56,7 +56,7 @@ function updateAllowedCommands() {
 function help() {
     printLine('The following commands work. Hover them for more information.');
     printLine('' +
-        ' <span class="yellow" title="Explain the letious commands">help</span>,' +
+        ' <span class="yellow" title="Explain the list of commands">help</span>,' +
         ' <span class="yellow" title="Clear the screen for freshness">clear</span>,' +
         ' <span class="yellow" title="List all the files in this directory">ls</span>,' +
         ' <span class="yellow" title="List all links on the website">tree</span>,' +
