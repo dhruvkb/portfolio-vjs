@@ -25,11 +25,7 @@
       "type": "folder",
       "children": [
         {
-          "name": "resume_full.pdf",
-          "type": "file"
-        },
-        {
-          "name": "resume_onepage.pdf",
+          "name": "resume.pdf",
           "type": "file"
         }
       ]
