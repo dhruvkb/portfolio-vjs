@@ -65,6 +65,15 @@ function help() {
         ' <span class="yellow" title="Show the contents of `filename`">cat </span>' +
         '<span class="green" title="Show the contents of `filename`"><em>filename</em></span>'
     );
+    printLine('<br>');
+    printLine('You can also use the' +
+        ' <kbd class="cyan">Up</kbd> and' +
+        ' <kbd class="cyan">Down</kbd>' +
+        ' keys to navigate through your command history.'
+    );
+    printLine('You can click on tree nodes if CLI is not your thing.' +
+        ' You\'ll still need to hit <kbd class="cyan">Enter</kbd>.'
+    );
 }
 
 /**
