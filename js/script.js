@@ -104,7 +104,7 @@ function printTopBlock() {
     printLine('<span class="green">==================</span>');
     printLine('<span class="cyan">&nbsp;dhruv bhanushali</span>');
     printLine('<span class="green">==================</span>');
-    printLine(`<strong>software developer</strong>`);
+    printLine(`<strong>software developer and technical author</strong>`);
     printLine(`<strong>undergraduate, IIT Roorkee</strong>`);
     printLine('<br>');
     help();
