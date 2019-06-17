@@ -2,9 +2,9 @@
     <img src="readme_assets/cover.jpg" width="100%"/>
 </a>
 
-<p align="center">
-    <h1>Dhruv Bhanushali</h1>
-</p>
+<h1 align="center">
+    Dhruv Bhanushali
+</h1>
 
 Hello! I am Dhruv Bhanushali, an engineering graduate from the Indian Institute
 of Technology, Roorkee. I am a software developer and technical author, based 
