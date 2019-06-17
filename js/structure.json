@@ -25,7 +25,11 @@
       "type": "folder",
       "children": [
         {
-          "name": "resume.pdf",
+          "name": "software_composer.pdf",
+          "type": "file"
+        },
+        {
+          "name": "technical_author.pdf",
           "type": "file"
         }
       ]
