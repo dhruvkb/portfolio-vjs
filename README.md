@@ -6,10 +6,9 @@
     Dhruv Bhanushali
 </h1>
 
-Hello! I am Dhruv Bhanushali, an engineering graduate from the Indian Institute
-of Technology, Roorkee. I am a software developer and technical author, based 
-on the time of day and the phase of the moon.
+Hello! I am [Dhruv Bhanushali](https://dhruvkb.github.io/), an engineering
+graduate from the Indian Institute of Technology, Roorkee. I am a software
+developer and technical writer, based on the time of day and the phase of the
+moon.
 
-This is my portfolio, my tiny personal part of the Internet.
-
-[_Welcome!_](https://dhruvkb.github.io/)
+This is my portfolio, my tiny personal slice of the Internet.
