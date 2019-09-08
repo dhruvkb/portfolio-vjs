@@ -161,7 +161,10 @@ function concatenate(path, callback) {
                 }
             ]
         });
-    } else if (filename.includes('.pdf')) {
+    } else if (filename === 'developer.pdf' || filename === 'writer.pdf') {
+        window.open(window.location.origin + '/resume/' + filename);
+        callback();
+    }else if (filename.includes('.pdf')) {
         window.open(window.location.origin + '/pdf/' + filename);
         callback();
     }

@@ -25,11 +25,11 @@
       "type": "folder",
       "children": [
         {
-          "name": "software_composer.pdf",
+          "name": "developer.pdf",
           "type": "file"
         },
         {
-          "name": "technical_author.pdf",
+          "name": "writer.pdf",
           "type": "file"
         }
       ]
