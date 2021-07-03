@@ -12,3 +12,5 @@ developer and technical writer, based on the time of day and the phase of the
 moon.
 
 This is my portfolio, my tiny personal slice of the Internet.
+
+_This site is deprecated. Please visit [the latest version](https://dhruvkb.github.io)._
