@@ -33,6 +33,30 @@ kbd {
     max-width: 50em;
 }
 
+#notice {
+    display: flex;
+    align-items: center;
+
+    font-family: 'Fira Code', monospace !important;
+    font-size: 14px;
+    line-height: 1.4;
+
+    color: #93a1a1;
+    background: rgba(255, 255, 255, 0.1);
+
+    height: 3em;
+    padding: 0 10px;
+}
+
+#notice p {
+    text-align: center;
+}
+
+#notice a {
+    color: inherit;
+    text-decoration: underline;
+}
+
 div.Terminal div p:last-of-type::before {
     content: attr(data-prompt);
 }
@@ -73,7 +97,7 @@ ul {
 }
 
 a .text {
-    color: #d33682; 
+    color: #d33682;
 }
 
 a .text:before {

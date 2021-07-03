@@ -89,7 +89,7 @@ function focus() {
  * Uses the Solarized theme
  */
 function styleTerminal() {
-    terminal.setHeight('100vh');
+    terminal.setHeight('calc(100vh - 3em)');
 
     terminal.setBackgroundColor('#002b36');
     terminal.setTextColor('#93a1a1');
